@@ -113,13 +113,6 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
   },
 );
 
-Widget defaultTextButton(@required Function function, @required String text) =>
-    TextButton(
-      onPressed: function,
-      child: Text(
-        text.toUpperCase(),
-      ),
-    );
 
 void showToast({@required String text,@required ToastState state }) => Fluttertoast.showToast(
   msg: text,
