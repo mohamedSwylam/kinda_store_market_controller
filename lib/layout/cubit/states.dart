@@ -2,48 +2,35 @@ abstract class StoreAppStates {}
 
 class StoreAppInitialState extends StoreAppStates {}
 
-class StoreAppBottomBarChangeState extends StoreAppStates {}
-
-class StoreAppBottomBarSearchState extends StoreAppStates {}
-
+//changeTheme
 class StoreAppChangeThemeModeState extends StoreAppStates {}
 
-class StoreAppAddToCartSuccessState extends StoreAppStates {}
-
-class StoreAppReduceCartItemByOneSuccessState extends StoreAppStates {}
-
-class StoreAppClearCartSuccessState extends StoreAppStates {}
-
-class StoreAppRemoveCartItemSuccessState extends StoreAppStates {}
-
-class StoreAppClearWishListSuccessState extends StoreAppStates {}
-
-class StoreAppRemoveWishListItemSuccessState extends StoreAppStates {}
-
-class StoreAppAddItemToWishListSuccessState extends StoreAppStates {}
-
+//search
 class StoreAppSearchQuerySuccessState extends StoreAppStates {}
 
-class StoreAppPickedProfileImageSuccessState extends StoreAppStates {}
+//pickedImage
+class StoreAppPickedImageSuccessState extends StoreAppStates {}
 
-class StoreAppPickedProfileImageErrorState extends StoreAppStates {}
+class StoreAppPickedImageErrorState extends StoreAppStates {}
 
-class UploadProfileImageLoadingState extends StoreAppStates {}
+//upload Image from gallery
+class UploadImageLoadingState extends StoreAppStates {}
 
-class UploadPickedProfileImageSuccessState extends StoreAppStates {}
+class UploadPickedImageSuccessState extends StoreAppStates {}
 
-class UploadPickedProfileImageErrorState extends StoreAppStates {}
+class UploadPickedImageErrorState extends StoreAppStates {}
 
-class StoreAppPickedProfileImageCameraSuccessState extends StoreAppStates {}
+//upload Image from camera
+class StoreAppPickedImageCameraSuccessState extends StoreAppStates {}
 
-class StoreAppRemoveProfileImageSuccessState extends StoreAppStates {}
+//upload Image from gallery
+class StoreAppRemoveImageSuccessState extends StoreAppStates {}
 
-class StoreAppChangeUploadProductCategorySuccessState extends StoreAppStates {}
+//Change Product Category
+class StoreAppChangeProductCategorySuccessState extends StoreAppStates {}
+class StoreAppChangeProductCategoryEnSuccessState extends StoreAppStates {}
 
-class StoreAppChangeUploadProductBrandSuccessState extends StoreAppStates {}
-
-class StoreAppChangeUploadProductIsPopularSuccessState extends StoreAppStates {}
-
+//Create Product
 class CreateProductSuccessState extends StoreAppStates {}
 
 class CreateProductErrorState extends StoreAppStates {
@@ -52,6 +39,7 @@ class CreateProductErrorState extends StoreAppStates {
   CreateProductErrorState(this.error);
 }
 
+//Create banner
 class CreateBannerSuccessState extends StoreAppStates {}
 
 class CreateBannerErrorState extends StoreAppStates {
@@ -60,6 +48,7 @@ class CreateBannerErrorState extends StoreAppStates {
   CreateBannerErrorState(this.error);
 }
 
+//get Product
 class GetProductLoadingStates extends StoreAppStates {}
 
 class GetProductSuccessStates extends StoreAppStates {}
@@ -69,6 +58,8 @@ class GetProductErrorStates extends StoreAppStates {
 
   GetProductErrorStates(this.error);
 }
+
+//get banner
 class GetBannersLoadingStates extends StoreAppStates {}
 
 class GetBannersSuccessStates extends StoreAppStates {}
@@ -78,79 +69,52 @@ class GetBannersErrorStates extends StoreAppStates {
 
   GetBannersErrorStates(this.error);
 }
+
+//Remove Product From Search Screen
+
 class RemoveProductFromSearchLoadingStates extends StoreAppStates {}
 
 class RemoveProductFromSearchSuccessStates extends StoreAppStates {}
 
 class RemoveProductFromSearchErrorStates extends StoreAppStates {}
 
+//Remove Banner image
 class RemoveBannerLoadingStates extends StoreAppStates {}
 
 class RemoveBannerSuccessStates extends StoreAppStates {}
 
 class RemoveBannerErrorStates extends StoreAppStates {}
 
+//Remove Product
 class RemoveProductLoadingStates extends StoreAppStates {}
 
 class RemoveProductSuccessStates extends StoreAppStates {}
 
+//Remove order
 class RemoveOrderLoadingStates extends StoreAppStates {}
 
 class RemoveOrderSuccessStates extends StoreAppStates {}
 
 class RemoveOrderErrorStates extends StoreAppStates {}
 
+// Input Price
 class StoreAppInputPriceSuccessState extends StoreAppStates {}
 
 class RemoveProductErrorStates extends StoreAppStates {}
 
-class StoreInitialState extends StoreAppStates {}
+//Change Bottom Navigation bar
 
 class StoreChangeBottomNavState extends StoreAppStates {}
 
 class StoreChangeDropdownState extends StoreAppStates {}
+
+//select specific page
 
 class StoreAppBottomBarHomeState extends StoreAppStates {}
 
 class StoreAppBottomBarFeedState extends StoreAppStates {}
 
 class StoreAppBottomBarCartState extends StoreAppStates {}
-
-class GetUserLoadingStates extends StoreAppStates {}
-
-class GetUserSuccessStates extends StoreAppStates {}
-
-class GetUserErrorStates extends StoreAppStates {}
-
-class SignOutSuccessState extends StoreAppStates {}
-
-//brandScreen
-class SelectAddidasBrandState extends StoreAppStates {}
-
-class SelectAppleBrandState extends StoreAppStates {}
-
-class SelectDellBrandState extends StoreAppStates {}
-
-class SelectHmBrandState extends StoreAppStates {}
-
-class SelectNikeBrandState extends StoreAppStates {}
-
-class SelectSamsungBrandState extends StoreAppStates {}
-
-class SelectHuaweiBrandState extends StoreAppStates {}
-
-class SelectAllBrandState extends StoreAppStates {}
-
-class ChangeIndexState extends StoreAppStates {}
-
-///////////uploadOrder
-class CreateOrderSuccessState extends StoreAppStates {}
-
-class CreateOrderErrorState extends StoreAppStates {}
-
-class OnTapBrandItemState extends StoreAppStates {}
-
-class OnTapBrandItemStatee extends StoreAppStates {}
 
 ////////////get order
 class GetOrdersLoadingStates extends StoreAppStates {}
@@ -159,15 +123,6 @@ class GetOrdersSuccessStates extends StoreAppStates {}
 
 class GetOrdersErrorStates extends StoreAppStates {}
 
-class GetCartsLoadingStates extends StoreAppStates {}
-
-class GetCartsSuccessStates extends StoreAppStates {}
-
-class GetCartsErrorStates extends StoreAppStates {
-  final String error;
-
-  GetCartsErrorStates(this.error);
-}
 /////////////////loginScreen
 
 class LoginInitialState extends StoreAppStates {}
@@ -196,117 +151,24 @@ class ForgetPasswordErrorState extends StoreAppStates {
   ForgetPasswordErrorState(this.error);
 }
 
-class LoginAnonymousLoadingState extends StoreAppStates {}
-
-class LoginAnonymousSuccessState extends StoreAppStates {}
-
-class LoginAnonymousErrorState extends StoreAppStates {
-  final String error;
-
-  LoginAnonymousErrorState(this.error);
-}
-
-class LoginWithFacebookLoadingState extends StoreAppStates {}
-
-class LoginWithFacebookSuccessState extends StoreAppStates {}
-
-class LoginWithFacebookErrorState extends StoreAppStates {
-  final String error;
-
-  LoginWithFacebookErrorState(this.error);
-}
-
-class LoginPasswordVisibilityState extends StoreAppStates {}
-
-class LoginState extends StoreAppStates {}
-
 class GetUserLoginLoadingStates extends StoreAppStates {}
 
 class GetUserLoginSuccessStates extends StoreAppStates {}
 
 class GetUserLoginErrorStates extends StoreAppStates {}
 
-class CreateCartItemSuccessState extends StoreAppStates {}
 
-class CreateCartItemErrorState extends StoreAppStates {}
+class PasswordVisibilityState extends StoreAppStates {}
+///////////////comment
+class GetCommentsLoadingStates extends StoreAppStates {}
 
-///////////wishlist
-class UploadWishListItemSuccessState extends StoreAppStates {}
+class GetCommentsSuccessStates extends StoreAppStates {}
 
-class UploadWishListItemErrorState extends StoreAppStates {}
+class GetCommentsErrorStates extends StoreAppStates {}
 
-class GetWishListLoadingStates extends StoreAppStates {}
+class ChangeRateSuccessStates extends StoreAppStates {}
 
-class GetWishListSuccessStates extends StoreAppStates {}
+class RemoveCommentLoadingStates extends StoreAppStates {}
+class RemoveCommentSuccessStates extends StoreAppStates {}
+class RemoveCommentErrorStates extends StoreAppStates {}
 
-class GetWishListErrorStates extends StoreAppStates {
-  final String error;
-
-  GetWishListErrorStates(this.error);
-}
-
-class RemoveFromWishListLoadingStates extends StoreAppStates {}
-
-class RemoveFromWishListSuccessStates extends StoreAppStates {}
-
-class RemoveFromWishListErrorStates extends StoreAppStates {}
-
-class RemoveFromCartLoadingStates extends StoreAppStates {}
-
-class RemoveFromCartSuccessStates extends StoreAppStates {}
-
-class RemoveFromCartErrorStates extends StoreAppStates {}
-
-class AddCartItemByOneLoadingStates extends StoreAppStates {}
-
-class AddCartItemByOneSuccessStates extends StoreAppStates {}
-
-class AddCartItemByOneErrorStates extends StoreAppStates {}
-
-class ReduceCartItemByOneLoadingStates extends StoreAppStates {}
-
-class ReduceCartItemByOneSuccessStates extends StoreAppStates {}
-
-class ReduceCartItemByOneErrorStates extends StoreAppStates {}
-
-//updateprofile
-
-class UpdateErrorState extends StoreAppStates {
-  final String error;
-
-  UpdateErrorState(this.error);
-}
-
-class UpdateLoadingState extends StoreAppStates {}
-
-/////signUp
-
-class SignUpInitialState extends StoreAppStates {}
-
-class SignUpLoadingState extends StoreAppStates {}
-
-class SignUpSuccessState extends StoreAppStates {}
-
-class SignUpErrorState extends StoreAppStates {
-  final String error;
-
-  SignUpErrorState(this.error);
-}
-
-class CreateUserSuccessState extends StoreAppStates {}
-
-class CreateUserErrorState extends StoreAppStates {
-  final String error;
-
-  CreateUserErrorState(this.error);
-}
-
-class SignUpPasswordVisibilityState extends StoreAppStates {}
-
-class SignUpPickedProfileImageSuccessState extends StoreAppStates {}
-
-class SignUpPickedProfileImageErrorState extends StoreAppStates {}
-
-class SignUpPickedProfileImageCameraSuccessState extends StoreAppStates {}
-
-class SignUpRemoveProfileImageSuccessState extends StoreAppStates {}

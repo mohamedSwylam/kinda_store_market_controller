@@ -19,11 +19,11 @@ class StoreLayout extends StatelessWidget {
             onTap: (index) => cubit.changeIndex(index),
             currentIndex: cubit.currentIndex,
             items: [
-              TitledNavigationBarItem(title: Text('الرئيسه',style: Theme.of(context).textTheme.subtitle1,), icon: MaterialCommunityIcons.home_account,),
+              TitledNavigationBarItem(title: Text('الاضافه',style: Theme.of(context).textTheme.subtitle1,), icon: MaterialCommunityIcons.plus,),
               TitledNavigationBarItem(title: Text('المنتجات',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.rss,),
               TitledNavigationBarItem(title: Text('البحث',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.search,),
-              TitledNavigationBarItem(title: Text('العربه',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.shopping_cart,),
-              TitledNavigationBarItem(title: Text('الحساب',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.user,),
+              TitledNavigationBarItem(title: Text('الطلبات',style: Theme.of(context).textTheme.subtitle1,), icon: Icons.view_compact_rounded,),
+              TitledNavigationBarItem(title: Text('الصور',style: Theme.of(context).textTheme.subtitle1,), icon: Icons.image,),
             ],
           ),
         );

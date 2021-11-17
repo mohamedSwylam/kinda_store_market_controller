@@ -6,12 +6,12 @@ import 'package:kinda_store_controller/layout/cubit/cubit.dart';
 import 'package:kinda_store_controller/layout/cubit/states.dart';
 import 'package:kinda_store_controller/models/order_model.dart';
 import 'package:kinda_store_controller/models/product_model.dart';
-import 'package:kinda_store_controller/shared/components/components.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store_controller/styles/colors/colors.dart';
 
 import 'delete_order_dialog.dart';
 
-class CartScreen extends StatelessWidget {
+class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
@@ -46,7 +46,7 @@ class CartScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               SizedBox(
-                height: 25,
+                height: 5.h,
               ),
               ListView.separated(
                 shrinkWrap: true,
@@ -56,7 +56,7 @@ class CartScreen extends StatelessWidget {
                   return buildProductItem(context, list[index]);
                 },
                 separatorBuilder: (context, index) => Container(
-                  height: 8,
+                  height: 2.h,
                 ),
                 itemCount: StoreAppCubit.get(context).orders.length,
               ),
@@ -75,7 +75,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
             children: [
               Container(
                 width: double.infinity,
-                height: 165,
+                height: 25.h,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -83,7 +83,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 4.h,),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0,right: 10),
                 child: Column(
@@ -93,24 +93,25 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${model.username}',
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.username}',
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                       Spacer(),
                         Text(
                           'اسم العميل',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 1.h,
                     ),
                     Container(
                       child: Row(
@@ -118,22 +119,145 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
+                            width: 50.w,
                             child: Text(
                               '${model.userAddress}',
                               textAlign: TextAlign.end,
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                             ),
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
+                          Spacer(),
                           Text(
                             'عنوان العميل',
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.addressDetails}',
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                        Spacer(),
+
+                        Text(
+                          'تفاصيل العنوان',
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.userPhone}',
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          'رقم التواصل',
+
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.anotherNumber}',
+
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          'الرقم الاخر للتواصل',
+
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height:1.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.title}',
+
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                        Spacer(),
+
+                        Text(
+                          'اسم المنتج',
+
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.quantity}',
+
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          'الكميه',
+
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 5,
@@ -143,216 +267,101 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 170,
+                          width: 50.w,
                           child: Text(
-                            '${model.addressDetails}',
+                            '${model.price}',
+
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                           ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'تفاصيل العنوان',
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${model.userPhone}',
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'رقم التواصل',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${model.anotherNumber}',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'الرقم الاخر للتواصل',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${model.title}',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'اسم المنتج',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${model.quantity}',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'الكميه',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${model.price}',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        Spacer(),
                         Text(
                           'سعر المنتج',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 1.h,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${model.subTotal}',
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.subTotal}',
 
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        Spacer(),
                         Text(
                           'الاجمالي',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 1.h,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '10',
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '10',
 
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        Spacer(),
+
                         Text(
                           'الشحن',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 1.h,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${model.total}',
+                        Container(
+                          width: 50.w,
+                          child: Text(
+                            '${model.total}',
 
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        Spacer(),
                         Text(
                           'السعر الكلي',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 2.h,
                     ),
                     Center(
                       child: Container(
@@ -371,25 +380,25 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                           ),
                           color: defaultColor,
                           child: Text(
-                            'حذف الطلب',
+                            'انهاء الطلب',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color:
                                     Theme.of(context).textSelectionColor,
-                                fontSize: 15,
+                                fontSize: 11.sp,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 2.h,
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                width: 15.0,
+                width: 5.0.w,
               ),
             ],
           ),

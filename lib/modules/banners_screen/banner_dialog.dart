@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinda_store_controller/layout/cubit/cubit.dart';
 import 'package:kinda_store_controller/layout/cubit/states.dart';
-import 'package:kinda_store_controller/shared/components/components.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store_controller/styles/colors/colors.dart';
 
 
 
-class DeleteProductDialog extends StatelessWidget {
+class BannerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
@@ -30,25 +30,24 @@ class DeleteProductDialog extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
+                    SizedBox(height: 4.h,),
                     Image.asset(
                       'assets/images/ok.png',
                     ),
                     SizedBox(height: 10,),
                     Text(
-                      'تم حذف المنتج بنجاح',
+                      'تم العمليه بنجاح',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w600),),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 4.h,),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: RaisedButton(
                         onPressed:  ()  {
-                          StoreAppCubit.get(context).selectedFeed();
                           Navigator.pop(context);
                         },
                         shape: RoundedRectangleBorder(
@@ -57,16 +56,16 @@ class DeleteProductDialog extends StatelessWidget {
                         ),
                         color: defaultColor,
                         child: Text(
-                          'عوده',
+                          'موافق',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Theme.of(context).textSelectionColor,
-                              fontSize: 15,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(height: 6.h,),
                   ],
                 ),
               ),

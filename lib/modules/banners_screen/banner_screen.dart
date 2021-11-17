@@ -5,7 +5,7 @@ import 'package:badges/badges.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -19,7 +19,7 @@ import 'banner_dialog.dart';
 
 
 
-class UserScreen extends StatelessWidget {
+class BannerScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class UserScreen extends StatelessWidget {
                         child: productImage == null
                             ? Container(
                           margin: EdgeInsets.all(10),
-                          height: 200,
+                          height: 30.h,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             border: Border.all(width: 1),
@@ -101,8 +101,8 @@ class UserScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: CircleAvatar(
-                          child: IconButton(
-                            onPressed: () {
+                          child: InkWell(
+                            onTap: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -111,8 +111,9 @@ class UserScreen extends StatelessWidget {
                                         'اختر طريقه',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
                                             color:
-                                            ColorsConsts.gradiendLStart),
+                                            defaultColor),
                                       ),
                                       content: SingleChildScrollView(
                                         child: ListBody(
@@ -132,13 +133,14 @@ class UserScreen extends StatelessWidget {
                                                         8.0),
                                                     child: Icon(
                                                       Icons.camera,
+                                                      size: 7.w,
                                                       color: Colors.yellow[700],
                                                     ),
                                                   ),
                                                   Text(
                                                     'الكاميرا',
                                                     style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 13.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                         color: ColorsConsts
@@ -150,7 +152,7 @@ class UserScreen extends StatelessWidget {
                                             InkWell(
                                               onTap: () {
                                                 StoreAppCubit.get(context)
-                                                    .getProfileImageGallery();
+                                                    .getImageGallery();
                                                 Navigator.pop(context);
                                               },
                                               splashColor: Colors.yellow[700],
@@ -162,13 +164,14 @@ class UserScreen extends StatelessWidget {
                                                         8.0),
                                                     child: Icon(
                                                       Icons.image,
+                                                      size: 7.w,
                                                       color: Colors.yellow[700],
                                                     ),
                                                   ),
                                                   Text(
                                                     'المعرض',
                                                     style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 13.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                         color: ColorsConsts
@@ -193,12 +196,13 @@ class UserScreen extends StatelessWidget {
                                                     child: Icon(
                                                       Icons.remove_circle,
                                                       color: Colors.red,
+                                                      size: 7.w,
                                                     ),
                                                   ),
                                                   Text(
                                                     'حذف',
                                                     style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 13.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                         color: Colors.red),
@@ -212,21 +216,23 @@ class UserScreen extends StatelessWidget {
                                     );
                                   });
                             },
-                            icon: Icon(
-                              Feather.camera,
-                              color: Colors.white,
-                              size: 20,
+                            child: Center(
+                              child: Icon(
+                                Feather.camera,
+                                color: Colors.white,
+                                size: 6.w,
+                              ),
                             ),
                           ),
                           backgroundColor: defaultColor,
-                          radius: 18,
+                          radius: 5.w,
                         ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 6.h,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -254,24 +260,24 @@ class UserScreen extends StatelessWidget {
                                 'اضافه',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 18),
+                                    fontSize: 16.sp),
                               ),
                               SizedBox(
-                                width: 15,
+                                width: 3.w,
                               ),
                               Icon(
                                 Icons.add,
-                                size: 18,
+                                size: 6.w,
                               )
                             ],
                           )),
-                      width: 180,
-                      height: 50,
+                      width: 50.w,
+                      height: 9.h,
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 4.h,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -279,7 +285,7 @@ class UserScreen extends StatelessWidget {
                   child: Text(
                     " صور العرض",
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
@@ -293,7 +299,7 @@ class UserScreen extends StatelessWidget {
                     return buildPicItem(context,list[index]);
                   },
                   separatorBuilder: (context, index) => Container(
-                    height: 8,
+                    height: 2.h,
                   ),
                   itemCount: StoreAppCubit.get(context).banners.length,
                 ),
@@ -305,11 +311,12 @@ class UserScreen extends StatelessWidget {
     );  }
 }
 Widget buildPicItem(context , BannerModel model) => Stack(
+  alignment: Alignment.bottomLeft,
   children: [
     Container(
       child: Container(
         width: double.infinity,
-        height: 165,
+        height: 30.h,
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -335,31 +342,25 @@ Widget buildPicItem(context , BannerModel model) => Stack(
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
     ),
-    Positioned(
-      top: 155,
-      left: 7,
-      child: Container(
-        height: 30,
-        width: 30,
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)),
-          padding: EdgeInsets.symmetric(horizontal: 0.0),
-          color: Colors.redAccent,
-          child: CircleAvatar(
-            radius: 18.0,
-            backgroundColor: Colors.white,
-            child: Icon(
-              Feather.trash,
-              size: 20.0,
-              color: Colors.black,
-            ),
-          ),
-          onPressed: () {
+    Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: CircleAvatar(
+        child: InkWell(
+          onTap: () {
             StoreAppCubit.get(context).removeBanner(model.id);
           },
+          child: Center(
+            child: Icon(
+              Feather.trash,
+              color: Colors.white,
+              size: 6.w,
+            ),
+          ),
         ),
+        backgroundColor: defaultColor,
+        radius: 5.w,
       ),
     ),
+
   ],
 );

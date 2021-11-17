@@ -6,19 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:kinda_store_controller/layout/cubit/states.dart';
-import 'package:kinda_store_controller/local/cache_helper.dart';
 import 'package:kinda_store_controller/models/banner_model.dart';
-import 'package:kinda_store_controller/models/category_model.dart';
+import 'package:kinda_store_controller/models/comment_model.dart';
 import 'package:kinda_store_controller/models/order_model.dart';
 import 'package:kinda_store_controller/models/product_model.dart';
-import 'package:kinda_store_controller/modules/Login_screen/login_screen.dart';
-import 'package:kinda_store_controller/modules/cart_screen/cart_screen.dart';
-import 'package:kinda_store_controller/modules/feeds_screen/delete_product_dialog.dart';
-import 'package:kinda_store_controller/modules/feeds_screen/feeds_screen.dart';
-import 'package:kinda_store_controller/modules/home_screen/home_screen.dart';
+import 'package:kinda_store_controller/modules/add_product_screen/add_product_screen.dart';
+import 'package:kinda_store_controller/modules/banners_screen/banner_screen.dart';
+import 'package:kinda_store_controller/modules/orders_screen/order_screen.dart';
+import 'package:kinda_store_controller/modules/products_screen/delete_product_dialog.dart';
+import 'package:kinda_store_controller/modules/products_screen/product_screen.dart';
 import 'package:kinda_store_controller/modules/search/search_screen.dart';
-import 'package:kinda_store_controller/modules/user_screen/user_screen.dart';
-import 'package:kinda_store_controller/shared/components/components.dart';
 import 'package:uuid/uuid.dart';
 class StoreAppCubit extends Cubit<StoreAppStates> {
   StoreAppCubit() : super(StoreAppInitialState());
@@ -26,60 +23,32 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   static StoreAppCubit get(context) => BlocProvider.of(context);
 
 
-  bool isDark = false;
 
-  void changeThemeMode({bool fromShared}) {
-    if (fromShared != null) {
-      isDark = fromShared;
-      emit(StoreAppChangeThemeModeState());
-    } else {
-      isDark = !isDark;
-      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {});
-      emit(StoreAppChangeThemeModeState());
-    }
-  }
 
-  void changeThemeModeToDark({bool fromShared}) {
-    if (fromShared != null) {
-      isDark = fromShared;
-      emit(StoreAppChangeThemeModeState());
-    } else {
-      isDark = true;
-      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {});
-      emit(StoreAppChangeThemeModeState());
-    }
-  }
+  //////////////////////////////////////////////////////////////////////////////////////////add product Screen
 
-  void changeThemeModeToLight({bool fromShared}) {
-    if (fromShared != null) {
-      isDark = fromShared;
-      emit(StoreAppChangeThemeModeState());
-    } else {
-      isDark = false;
-      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {});
-      emit(StoreAppChangeThemeModeState());
-    }
-  }
+
+  ///////////upload pickedImage
 
   File productImage;
   String url = 'https://kisss.cc/wp-content/uploads/2018/07/2761.jpg';
   var picker = ImagePicker();
 
-  Future<void> getProfileImageGallery() async {
+  Future<void> getImageGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       productImage = File(pickedFile.path);
-      uploadProfileImage();
-      emit(StoreAppPickedProfileImageSuccessState());
+      uploadImage();
+      emit(StoreAppPickedImageSuccessState());
     } else {
       productImage = File(pickedFile.path);
       print('No image selected.');
-      emit(StoreAppPickedProfileImageErrorState());
+      emit(StoreAppPickedImageErrorState());
     }
   }
 
-  void uploadProfileImage() {
-    emit(UploadProfileImageLoadingState());
+  void uploadImage() {
+    emit(UploadImageLoadingState());
     firebase_storage.FirebaseStorage.instance
         .ref()
         .child('products/${Uri
@@ -90,17 +59,17 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .then((value) {
       value.ref.getDownloadURL().then((value) {
         if (value != null) {
-          emit(UploadPickedProfileImageSuccessState());
+          emit(UploadPickedImageSuccessState());
           url = value;
           print(value);
         } else {
           url = 'https://kisss.cc/wp-content/uploads/2018/07/2761.jpg';
         }
       }).catchError((error) {
-        emit(UploadPickedProfileImageErrorState());
+        emit(UploadPickedImageErrorState());
       });
     }).catchError((error) {
-      emit(UploadPickedProfileImageErrorState());
+      emit(UploadPickedImageErrorState());
     });
   }
 
@@ -110,18 +79,20 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     final pickedImageFile = File(pickedImage.path);
     productImage = pickedImageFile;
-    uploadProfileImage();
-    emit(StoreAppPickedProfileImageCameraSuccessState());
+    uploadImage();
+    emit(StoreAppPickedImageCameraSuccessState());
   }
 
   void remove() {
     url = 'https://kisss.cc/wp-content/uploads/2018/07/2761.jpg';
-    uploadProfileImage();
-    emit(StoreAppRemoveProfileImageSuccessState());
+    uploadImage();
+    emit(StoreAppRemoveImageSuccessState());
   }
 
   var productTitleController = TextEditingController();
+  var productTitleEnController = TextEditingController();
   var productPrice;
+  var productDescriptionEnController = TextEditingController();
   var productDescriptionController = TextEditingController();
   String productCategory = 'صنف المنتج';
 
@@ -129,14 +100,41 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   void changeCategory(String value) {
     productCategory = value;
-    emit(StoreAppChangeUploadProductCategorySuccessState());
+    emit(StoreAppChangeProductCategorySuccessState());
   }
-
+  String productCategoryEn = ' صنف المنتج بالانجليزيه';
+  void changeCategoryEn(String value) {
+    productCategoryEn = value;
+    emit(StoreAppChangeProductCategoryEnSuccessState());
+  }
   void inputPrice(value) {
     productPrice = value;
     emit(StoreAppInputPriceSuccessState());
   }
-///////////////////banner
+  void createProduct(context) {
+    final productId = uuid.v4();
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .set({
+      'id': productId.toString(),
+      'title': productTitleController.text,
+      'titleEn': productTitleEnController.text,
+      'descriptionEn': productTitleEnController.text,
+      'description': productDescriptionController.text,
+      'price': productPrice,
+      'imageUrl': url,
+      'productCategoryName': productCategory,
+      'productCategoryNameُEn': productCategoryEn,
+      'isPopular': true,
+    }).then((value) {
+      emit(CreateProductSuccessState());
+    }).catchError((error) {
+      emit(CreateProductErrorState(error.toString()));
+    });
+  }
+
+///////////////////banner screen
   void uploadBanner(context) {
     final bannerId = uuid.v4();
     FirebaseFirestore.instance
@@ -161,7 +159,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .then((QuerySnapshot bannersSnapshot) {
       banners = [];
       bannersSnapshot.docs.forEach((element) {
-        // print('element.get(productBrand), ${element.get('productBrand')}');
         banners.insert(
           0,
             BannerModel(
@@ -186,26 +183,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveBannerErrorStates());
     });
   }
-  ////////////////////
-  void createProduct(context) {
-    final productId = uuid.v4();
-    FirebaseFirestore.instance
-        .collection('products')
-        .doc(productId)
-        .set({
-      'id': productId.toString(),
-      'title': productTitleController.text,
-      'description': productDescriptionController.text,
-      'price': productPrice,
-      'imageUrl': url,
-      'productCategoryName': productCategory,
-      'isPopular': true,
-    }).then((value) {
-      emit(CreateProductSuccessState());
-    }).catchError((error) {
-      emit(CreateProductErrorState(error.toString()));
-    });
-  }
+  //////////////////////////////////////////////////////////////////////////////////////////// products screen
 
   List<Product> products = [];
 
@@ -217,12 +195,14 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .then((QuerySnapshot productsSnapshot) {
       products = [];
       productsSnapshot.docs.forEach((element) {
-        // print('element.get(productBrand), ${element.get('productBrand')}');
         products.insert(
           0,
           Product(
               id: element.get('id'),
               title: element.get('title'),
+              titleEn: element.get('titleEn'),
+              descriptionEn: element.get('descriptionEn'),
+              productCategoryNameEn: element.get('productCategoryNameُEn'),
               description: element.get('description'),
               price: double.parse(
                 element.get('price'),
@@ -237,7 +217,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetProductErrorStates(error.toString()));
     });
   }
-
+  Product findById(String productId) {
+    return products.firstWhere((element) => element.id == productId);
+  }
   void removeProduct(productId) async {
     emit(RemoveProductLoadingStates());
     await FirebaseFirestore.instance
@@ -250,6 +232,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveProductErrorStates());
     });
   }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////search screen
 
   void removeProductFromSearch(productId, context) async {
     emit(RemoveProductFromSearchLoadingStates());
@@ -267,15 +251,25 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveProductFromSearchErrorStates());
     });
   }
+  List<Product> searchList = [];
 
-  /////////////////////////////////////////////////
+  List<Product> searchQuery(String searchText) {
+    searchList = products
+        .where((element) =>
+        element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    emit(StoreAppSearchQuerySuccessState());
+    return searchList;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////StoreLayout
   int currentIndex = 0;
   List<Widget> StoreScreens = [
-    HomeScreen(),
-    FeedsScreen(),
+    AddProductScreen(),
+    ProductsScreen(),
     SearchScreen(),
-    CartScreen(),
-    UserScreen(),
+    OrdersScreen(),
+    BannerScreen(),
   ];
 
   void selectedHome() {
@@ -299,16 +293,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(StoreChangeBottomNavState());
   }
 
-  String dropDownValue = '1';
-  var items = ['1', '2', '3', '4', '5', '6'];
 
-  void changeDropDownValue(String newValue) {
-    dropDownValue = newValue;
-    emit(StoreChangeDropdownState());
-  }
-
-  ///////////////////////////SignUp
-
+  /////////////////////////////////////////////////////////////////////////////////////// login Screen
 
   IconData prefix = Icons.visibility_outlined;
   bool isPasswordShown = true;
@@ -318,11 +304,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     prefix = isPasswordShown
         ? Icons.visibility_outlined
         : Icons.visibility_off_outlined;
-    emit(SignUpPasswordVisibilityState());
+    emit(PasswordVisibilityState());
   }
 
-
-  ///////////////////////////// login Screen
   void userLogin({
     @required String password,
     @required String email,
@@ -358,7 +342,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String name;
   String phone;
-
   String email;
   String uId;
   String profileImage;
@@ -388,7 +371,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     }
   }
 
-  ///////////
+  ////////////////////////////////////////////////////////////////////////////// orders Screen
+
+
   List<OrderModel> orders = [];
 
   void getOrders() async {
@@ -399,7 +384,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .then((QuerySnapshot productsSnapshot) {
       orders = [];
       productsSnapshot.docs.forEach((element) {
-        // print('element.get(productBrand), ${element.get('productBrand')}');
         orders.insert(
           0,
           OrderModel(
@@ -439,59 +423,91 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveOrderErrorStates());
     });
   }
-
-  /////////
-
-
-  /////////////////////////search
-  List<Product> searchList = [];
-
-  List<Product> searchQuery(String searchText) {
-    searchList = products
-        .where((element) =>
-        element.title.toLowerCase().contains(searchText.toLowerCase()))
-        .toList();
-    emit(StoreAppSearchQuerySuccessState());
-    return searchList;
+  //////////Comment
+  List<CommentModel> comments = [];
+  void getComments(
+      @required String productId,
+      ) async {
+    emit(GetCommentsLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('products').doc(productId).collection('comments').
+    get()
+        .then((QuerySnapshot commentsSnapshot) {
+      comments.clear();
+      commentsSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        comments.insert(
+          0,
+          CommentModel(
+            userId: element.get('userId'),
+            dateTime: element.get('dateTime'),
+            commentId: element.get('commentId'),
+            imageUrl: element.get('imageUrl'),
+            username: element.get('username'),
+            rate: element.get('rate'),
+            rateDescription: element.get('rateDescription'),
+            rateDescriptionEn: element.get('rateDescriptionEn'),
+            productId: element.get('productId'),
+            text: element.get('text'),
+          ),
+        );
+      });
+      emit(GetCommentsSuccessStates());
+    }).catchError((error) {
+      emit(GetCommentsErrorStates());
+    });
+  }
+  double rate ;
+  String rateDescription;
+  String rateDescriptionEn;
+  void changeRating(rating) {
+    rate=rating;
+    if (rating > 0 && rating <= 1){
+      rateDescription ='سئ';
+      rateDescriptionEn ='Bad';
+    }
+    else if (rating > 1 && rating <= 2){
+      rateDescription ='لم يعجبني';
+      rateDescriptionEn ='Dislike';
+    }
+    else if (rating > 2 && rating <=3){
+      rateDescription ='جيد';
+      rateDescriptionEn ='Good';
+    }
+    else if (rating > 3 && rating <= 4){
+      rateDescription ='ممتاز';
+      rateDescriptionEn ='Excellent';
+    }
+    else if (rating > 4 && rating <= 5){
+      rateDescription ='رائع';
+      rateDescriptionEn ='Amazing';
+    }
+    else{
+      rate =3.0;
+      rateDescription="جيد";
+      rateDescriptionEn ='Good';
+    }
+    print(rating);
+    emit(ChangeRateSuccessStates());
   }
 
-  ///////////////////////////////////Signout
-  void signOut(context) =>
-      CacheHelper.removeData(key: 'uId').then((value) {
-        if (value) {
-          FirebaseAuth.instance
-              .signOut()
-              .then((value) => navigateAndFinish(context, LoginScreen()));
-          emit(SignOutSuccessState());
-        }
-      });
-
-  ////////////////////////////////categoryScreen
-  List<CategoryModel> categories = [
-    CategoryModel(
-        categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg'),
-    CategoryModel(
-        categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg'),
-    CategoryModel(
-        categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg'),
-    CategoryModel(
-        categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg'),
-    CategoryModel(
-      categoryName: 'جبن', categoryImage: 'assets/images/cheese.jpg',),
-    CategoryModel(
-        categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg'),
-    CategoryModel(
-        categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg'),
-    CategoryModel(
-      categoryName: 'شيكولاته', categoryImage: 'assets/images/choclate.jpg',),
-    CategoryModel(
-        categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg'),
-    CategoryModel(
-        categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif'),
-    CategoryModel(
-        categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
-  ];
-
+  void removeComment(productId,commentId) async {
+    emit(RemoveCommentLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .collection('comments')
+        .doc(commentId)
+        .delete()
+        .then((_) {
+      emit(RemoveCommentSuccessStates());
+    }).catchError((error) {
+      emit(RemoveCommentErrorStates());
+    });
+  }
 }
 
-////////////////banner
+
+
+
+

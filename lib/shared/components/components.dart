@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kinda_store_controller/styles/colors/colors.dart';
 
 Widget defaultButtom({
   double radius = 10,
@@ -35,17 +36,18 @@ Widget defaultFormFiled({
   Function onChange,
   bool isClickable = true,
   Function onTap,
+  IconData suffix,
   IconData prefix,
   @required Function validate,
   Function suffixPressed,
 }) =>
     TextFormField(
+      style: TextStyle(color: defaultColor),
       textAlign: TextAlign.end,
       obscureText: isPassword,
       validator: validate,
       enabled: isClickable,
       onTap: onTap,
-      onFieldSubmitted: onSubmit,
       onChanged: onChange,
       controller: controller,
       keyboardType: type,
@@ -169,7 +171,7 @@ Widget defaultButton(
         textColor: Colors.white,
       ),
     );
-Widget defaultFormField({
+/*Widget defaultFormField({
   @required TextInputType type,
   @required TextEditingController controller,
   String labelText,
@@ -206,7 +208,7 @@ Widget defaultFormField({
       fillColor: Theme.of(context).backgroundColor),
   onSaved: (value) {
   },
-);
+);*/
 
 Future<void> showDialogg(context,title,subtitle,Function function) async {
   showDialog(
