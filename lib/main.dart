@@ -30,7 +30,7 @@ Future<void> main() async{
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);*/
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-  runApp(DevicePreview(builder: (context) =>MyApp()));}
+  runApp(MyApp());}
 
 class MyApp extends StatelessWidget {
   MyApp();
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
               darkTheme: darkTheme,
               theme: lightTheme,
               themeMode: ThemeMode.light,
-              home: StoreLayout(),
+              home: LoginScreen(),
             ),
           );
         },
@@ -61,4 +61,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+//  runApp(DevicePreview(builder: (context) =>MyApp()));}

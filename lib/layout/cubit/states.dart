@@ -58,6 +58,16 @@ class GetProductErrorStates extends StoreAppStates {
 
   GetProductErrorStates(this.error);
 }
+//update Product
+class UpdateProductLoadingStates extends StoreAppStates {}
+
+class UpdateProductSuccessStates extends StoreAppStates {}
+
+class UpdateProductErrorStates extends StoreAppStates {
+  final String error;
+
+  UpdateProductErrorStates(this.error);
+}
 
 //get banner
 class GetBannersLoadingStates extends StoreAppStates {}

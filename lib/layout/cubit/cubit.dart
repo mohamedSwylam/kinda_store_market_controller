@@ -109,7 +109,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
   void inputPrice(value) {
     productPrice = value;
-    emit(StoreAppInputPriceSuccessState());
+    //emit(StoreAppInputPriceSuccessState());
   }
   void createProduct(context) {
     final productId = uuid.v4();
@@ -120,7 +120,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       'id': productId.toString(),
       'title': productTitleController.text,
       'titleEn': productTitleEnController.text,
-      'descriptionEn': productTitleEnController.text,
+      'descriptionEn': productDescriptionEnController.text,
       'description': productDescriptionController.text,
       'price': productPrice,
       'imageUrl': url,
@@ -217,6 +217,76 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetProductErrorStates(error.toString()));
     });
   }
+  //////////////update products
+  void updateProductCategory({
+    String productId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .update({
+      'productCategoryName': productCategory,
+      'productCategoryNameُEn': productCategoryEn,
+    })
+        .then((value) {
+      getProduct();
+      emit(UpdateProductSuccessStates());
+    }).catchError((error) {
+      emit(UpdateProductErrorStates(error.toString()));
+    });
+  }
+  void updateProductTitle({
+    String productId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .update({
+      'title': productTitleController.text,
+      'titleEn': productTitleEnController.text,
+    })
+        .then((value) {
+      getProduct();
+      emit(UpdateProductSuccessStates());
+    }).catchError((error) {
+      emit(UpdateProductErrorStates(error.toString()));
+    });
+  }
+  void updateProductDescription({
+    String productId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .update({
+      'descriptionEn': productDescriptionEnController.text,
+      'description': productDescriptionController.text,
+    })
+        .then((value) {
+      getProduct();
+      emit(UpdateProductSuccessStates());
+    }).catchError((error) {
+      emit(UpdateProductErrorStates(error.toString()));
+    });
+  }
+  void updateProductPrice({
+    String productId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(productId)
+        .update({
+      'price': productPrice.toString(),
+    })
+        .then((value) {
+      getProduct();
+      emit(UpdateProductSuccessStates());
+    }).catchError((error) {
+      emit(UpdateProductErrorStates(error.toString()));
+    });
+  }
+
+  ////////////////////////
   Product findById(String productId) {
     return products.firstWhere((element) => element.id == productId);
   }
@@ -389,16 +459,18 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           OrderModel(
             orderId: element.get('orderId'),
             title: element.get('title'),
-            price: element.get('price'),
+            titleEn: element.get('titleEn'),
             imageUrl: element.get('imageUrl'),
+            products: element.get('products'),
+            prices: element.get('prices'),
+            quantities : element.get('quantities'),
+            productsEn: element.get('productsEn'),
             userId: element.get('userId'),
             userAddress: element.get('userAddress'),
             total: element.get('total'),
             subTotal: element.get('subTotal'),
             anotherNumber: element.get('anotherNumber'),
             addressDetails: element.get('addressDetails'),
-            quantity: element.get('quantity'),
-            productId: element.get('productId'),
             username: element.get('username'),
             userPhone: element.get('userPhone'),
           ),
@@ -423,6 +495,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveOrderErrorStates());
     });
   }
+
   //////////Comment
   List<CommentModel> comments = [];
   void getComments(

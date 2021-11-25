@@ -106,7 +106,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         Text(
                           'اسم العميل',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -130,7 +130,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                           Text(
                             'عنوان العميل',
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                           ),
                         ],
                       ),
@@ -155,7 +155,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         Text(
                           'تفاصيل العنوان',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -179,7 +179,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                           'رقم التواصل',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -196,15 +196,14 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                             '${model.anotherNumber}',
 
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,),
                           ),
                         ),
                         Spacer(),
                         Text(
-                          'الرقم الاخر للتواصل',
-
+                          'الرقم اخر للتواصل',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -218,7 +217,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         Container(
                           width: 50.w,
                           child: Text(
-                            '${model.title}',
+                            '',
 
                             textAlign: TextAlign.end,
                             style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
@@ -227,60 +226,48 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         Spacer(),
 
                         Text(
-                          'اسم المنتج',
+                          'المنتجات',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 50.w,
-                          child: Text(
-                            '${model.quantity}',
-
-                            textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        Expanded(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return buildProductsItem(context,model.prices[index]);
+                            },
+                            itemCount: model.prices.length,
                           ),
+                          flex: 1,
                         ),
-                        Spacer(),
-                        Text(
-                          'الكميه',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 50.w,
-                          child: Text(
-                            '${model.price}',
-
-                            textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        Expanded(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return buildProductsItem(context,model.quantities[index]);
+                            },
+                            itemCount: model.quantities.length,
                           ),
+                          flex: 1,
                         ),
-                        Spacer(),
-                        Text(
-                          'سعر المنتج',
-
-                          textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                        SizedBox(width: 5.w,),
+                        Expanded(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return buildProductsItem(context,model.products[index]);
+                            },
+                            itemCount: model.products.length,
+                          ),
+                          flex: 2,
                         ),
                       ],
                     ),
@@ -302,10 +289,9 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         ),
                         Spacer(),
                         Text(
-                          'الاجمالي',
-
+                          'السعر الكلي',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -331,7 +317,7 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                           'الشحن',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -353,10 +339,10 @@ Widget buildProductItem(context, OrderModel model) => Stack(
                         ),
                         Spacer(),
                         Text(
-                          'السعر الكلي',
+                          'الاجمالي',
 
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp,color: defaultColor),
                         ),
                       ],
                     ),
@@ -421,3 +407,10 @@ Widget buildProductItem(context, OrderModel model) => Stack(
         ),
       ],
     );
+Widget buildProductsItem(context,model) => Text(
+  '${model}',
+  textAlign: TextAlign.end,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 13.sp),
+);
