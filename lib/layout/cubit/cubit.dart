@@ -218,6 +218,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
   //////////////update products
+  var productUpdateTitleController = TextEditingController();
+  var productUpdateTitleEnController = TextEditingController();
+  var productUpdatePrice;
+  var productUpdateDescriptionEnController = TextEditingController();
+  var productUpdateDescriptionController = TextEditingController();
+  String productUpdateCategory = 'صنف المنتج';
+
   void updateProductCategory({
     String productId,
   }) {
@@ -242,8 +249,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .collection('products')
         .doc(productId)
         .update({
-      'title': productTitleController.text,
-      'titleEn': productTitleEnController.text,
+      'title': productUpdateTitleController.text,
+      'titleEn': productUpdateTitleEnController.text,
     })
         .then((value) {
       getProduct();
@@ -259,8 +266,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .collection('products')
         .doc(productId)
         .update({
-      'descriptionEn': productDescriptionEnController.text,
-      'description': productDescriptionController.text,
+      'descriptionEn': productUpdateDescriptionEnController.text,
+      'description': productUpdateDescriptionController.text,
     })
         .then((value) {
       getProduct();

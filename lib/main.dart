@@ -22,7 +22,6 @@ Future<void> main() async{
   });
   FirebaseMessaging.onMessage.listen((event) {
     showToast(text: 'تم طلب اوردر جديد', state: ToastState.WARNING);
-
   });
 /*  Future<void> firebaseMessagingBackgroundHandler (RemoteMessage message) async{
    print(message.data.toString());

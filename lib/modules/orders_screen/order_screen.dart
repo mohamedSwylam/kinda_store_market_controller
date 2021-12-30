@@ -76,13 +76,11 @@ Widget buildProductItem(context, OrderModel model) => Stack(
               Container(
                 width: double.infinity,
                 height: 25.h,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(model.imageUrl),
+                child : Image.network('${model.imageUrl}',loadingBuilder:(context,child,progress){
+                  return progress == null  ? child : LinearProgressIndicator();
+                },
                   ),
                 ),
-              ),
               SizedBox(height: 4.h,),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0,right: 10),

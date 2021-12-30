@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinda_store_controller/layout/cubit/cubit.dart';
 import 'package:kinda_store_controller/layout/cubit/states.dart';
+import 'package:kinda_store_controller/modules/products_screen/update_product_dialog.dart';
 import 'package:kinda_store_controller/styles/colors/colors.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,17 +17,24 @@ class EditProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is UpdateProductSuccessStates){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => UpdateProductDialog(),
+          );
+        }
+      },
       builder: (context, state) {
         var cubit = StoreAppCubit.get(context);
         var productAttr = cubit.findById(productId);
-        cubit.productTitleController.text =
+        cubit.productUpdateTitleController.text =
             productAttr.title;
-        cubit.productTitleEnController.text =
+        cubit.productUpdateTitleEnController.text =
             productAttr.titleEn;
-        cubit.productDescriptionController.text =
+        cubit.productUpdateDescriptionController.text =
             productAttr.description;
-        cubit.productDescriptionEnController.text =
+        cubit.productUpdateDescriptionEnController.text =
             productAttr.descriptionEn;
         return Scaffold(
           appBar: AppBar(
@@ -234,7 +242,7 @@ class EditProductScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       child: TextFormField(
-                        controller: cubit.productTitleController,
+                        controller: cubit.productUpdateTitleController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'ادخل اسم المنتج';
@@ -261,7 +269,7 @@ class EditProductScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       child: TextFormField(
-                        controller: cubit.productTitleEnController,
+                        controller: cubit.productUpdateTitleEnController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'ادخل اسم المنتج بالانجليزيه';
@@ -413,7 +421,7 @@ class EditProductScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       child: TextFormField(
-                        controller: cubit.productDescriptionController,
+                        controller: cubit.productUpdateDescriptionController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'ادخل وصف المنتج';
@@ -440,7 +448,7 @@ class EditProductScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       child: TextFormField(
-                        controller: cubit.productDescriptionEnController,
+                        controller: cubit.productUpdateDescriptionEnController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'ادخل وصف المنتج بالانجليزيه';
@@ -597,7 +605,7 @@ class EditProductScreen extends StatelessWidget {
                         onChanged: (value) => cubit.changeCategory(value),
                         hint: Center(
                             child: Text(
-                              '${cubit.productCategory}',
+                              '${productAttr.productCategoryName}',
                           style: TextStyle(fontSize: 11.sp),
                         )),
                         borderRadius: BorderRadius.circular(10),
@@ -698,7 +706,7 @@ class EditProductScreen extends StatelessWidget {
                         onChanged: (value) => cubit.changeCategoryEn(value),
                         hint: Center(
                             child: Text(
-                          '${cubit.productCategoryEn}',
+                          '${productAttr.productCategoryNameEn}',
                           style: TextStyle(fontSize: 13.sp),
                         )),
                         borderRadius: BorderRadius.circular(10),

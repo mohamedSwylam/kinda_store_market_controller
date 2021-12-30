@@ -57,7 +57,7 @@ class DeleteProductDialog extends StatelessWidget {
                         ),
                         color: defaultColor,
                         child: Text(
-                          'عوده',
+                          'موافق',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Theme.of(context).textSelectionColor,
